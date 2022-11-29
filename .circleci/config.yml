@@ -115,22 +115,52 @@ jobs:
           paths: [BackendTest/node_modules]
           key: Backend-test
             
-#   scan-frontend:
-#     docker:
-#       # Docker image here
-#     steps:
-#       # Checkout code from git
-#       # Restore from cache
-#       # Your job code here
+  scan-frontend:
+    docker:
+      # Docker image here
+      - image: circleci/node:13.8.0
+    steps:
+      # checkout code from git 
+      - checkout
+      # Restore from cache
+      - restore_cache:
+          keys: [Scanfrontend-test]
+      # Your job code here
+      - run:
+          name: Scan-frontend 
+          command: |
+           # Your code here
+            cd frontend
+            npm install
+            npm audit fix --audit-level=critical --force
+            npm audit --audit-level=critical
+      - save_cache:
+          paths: [frontend/node_modules]
+          key: Scanfrontend-Test  
 
-#   scan-backend:
-#     docker:
-#       # Docker image here
-#     steps:
-#       # Checkout code from git
-#       # Restore from cache
-#       # Your job code here
+  scan-backend:
+    docker:
+       - image: circleci/node:13.8.0
+    steps:
+      # checkout code from git 
+      - checkout
+      # Restore from cache
 
+      - restore_cache:
+          keys: [Scanbackend-test]
+      # Your job code here
+      - run:
+          name: Scan-backend 
+          command: |
+           # Your code here
+            cd backend
+            npm install
+            npm audit fix --audit-level=critical --force
+            npm audit fix --audit-level=critical --force
+            npm audit --audit-level=critical
+      - save_cache:
+          paths: [backend/node_modules]
+          key: Scanbackend-Test  
 #   deploy-infrastructure:
 #     docker:
 #       # Docker image here that supports AWS CLI
