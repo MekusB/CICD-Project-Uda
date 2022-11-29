@@ -90,12 +90,12 @@ jobs:
             npm run test
       - save_cache:
           paths: [frontend/node_modules]
-          key: frontend-test
+          key: frontendTest
                 
   test-backend:
     docker:
       # Docker image here
-      image: circleci/node:13.8.0
+      - image: circleci/node:13.8.0
     steps:
       #checkout code from Git
       - checkout
@@ -112,7 +112,7 @@ jobs:
            npm install
            npm run test
       - save_cache:
-          paths: [Backend/node_modules]
+          paths: [BackendTest/node_modules]
           key: Backend-test
             
 #   scan-frontend:
